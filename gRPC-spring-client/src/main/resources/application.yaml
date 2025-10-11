@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: gRPC-spring-client
+
+server:
+  port: 8082
+
+grpc:
+  server:
+    port: 9090
+  client:
+    greetingService:
+      address: 'static://localhost:9090'
+      negotiation-type: plaintext
+
+logging:
+  level:
+    oleborn.grpcserver: DEBUG
+    net.devh: DEBUG
+
+feign:
+  client:
+    config:
+      default:
+        url: http://localhost:8080
+        connectTimeout: 5000
+        readTimeout: 10000
+        loggerLevel: basic

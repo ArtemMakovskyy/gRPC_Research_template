@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: gRPC-devh-client
+
+server:
+  port: 8081
+
+grpc:
+  client:
+    get-auto-service:
+      address: static://localhost:9090
+      negotiation-type: plaintext
+      enable-keep-alive: true
+
+logging:
+  level:
+    oleborn.grpcserver: DEBUG
+    net.devh: DEBUG
+
+feign:
+  client:
+    config:
+      default:
+        url: http://localhost:8080
+        connectTimeout: 5000
+        readTimeout: 10000
+        loggerLevel: basic
+

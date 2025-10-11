@@ -1,0 +1,81 @@
+// Указываем версию синтаксиса Protocol Buffers
+// proto3 - текущая основная версия с упрощенным синтаксисом
+// В отличие от proto2, все поля optional по умолчанию, нет required полей
+syntax = "proto3";
+
+// Импортируем стандартный тип Timestamp из библиотеки Google Protobuf
+// Это позволяет работать с датами и временем типобезопасным способом
+import "google/protobuf/timestamp.proto";
+
+// Каждый сгенерированный класс будет в отдельном файле
+// Без этой опции все классы были бы в одном файле в виде inner classes
+option java_multiple_files = true;
+
+// Пакет Java, в котором будут созданы сгенерированные классы
+// Должен совпадать с package в вашем Java коде
+option java_package = "oleborn.grpc.common";
+
+// Имя внешнего класса-обертки (актуально если java_multiple_files = false)
+// Содержит дескрипторы и вспомогательные методы
+option java_outer_classname = "CarProto";
+
+// Определение gRPC сервиса - аналог интерфейса в Java
+// Будет сгенерирован класс CarServiceGrpc с серверными и клиентскими заглушками
+service CarService {
+  // Определение RPC метода типа Unary Call
+  // BuyCar - имя метода
+  // CarBuyRequest - тип входящего сообщения (параметр)
+  // ListCarResponse - тип исходящего сообщения (возвращаемое значение)
+  // Unary RPC: один запрос → один ответ
+  rpc BuyCar (CarBuyRequest) returns (ListCarResponse);
+}
+
+// Определение перечисления (enum) для статуса автомобиля
+// В Protobuf enum должны иметь значение 0 (default value)
+enum CarStatus {
+  ACTIVE = 0;   // Значение по умолчанию
+  INACTIVE = 1; // Следующие значения увеличиваются на 1
+}
+
+// Определение структуры сообщения для запроса покупки автомобиля
+// Аналог DTO класса в Java
+message CarBuyRequest {
+  // Поле user_name типа string
+  // Тег 1 - уникальный идентификатор поля в бинарном формате
+  // Теги 1-15 используют 1 байт, 16+ - 2 байта (оптимизация размера)
+  string user_name = 1;
+
+  // Поле budget типа int64 (64-битное целое число)
+  // Для денежных значений лучше использовать int64 или decimal
+  int64 budget = 2;
+
+  // Поле user_birth_date типа Timestamp (импортирован выше)
+  // Позволяет передавать дату и время в типобезопасном формате
+  google.protobuf.Timestamp user_birth_date = 3;
+}
+
+// Определение структуры сообщения для ответа со списком автомобилей
+message ListCarResponse {
+  // Уникальный идентификатор автомобиля
+  int64 id = 1;
+
+  // Название модели автомобиля
+  string model_name = 2;
+
+  // Год выпуска автомобиля
+  int32 year_created = 3;
+
+  // repeated - обозначает список/массив значений
+  // Аналог List<String> в Java
+  // В бинарном формате это поле может повторяться
+  repeated string details = 4;
+
+  // map - ассоциативный массив (ключ-значение)
+  // Аналог Map<String, String> в Java
+  // В Protobuf maps реализованы как repeated fields с специальной структурой
+  map<string, string> metadata = 5;
+
+  // Поле типа перечисления (enum)
+  // Хранится как integer в бинарном формате
+  CarStatus car_status = 6;
+}

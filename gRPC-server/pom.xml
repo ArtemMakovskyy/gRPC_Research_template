@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <!-- Родительский POM Spring Boot - предоставляет версии зависимостей, плагины и базовые настройки -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.5.6</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>Oleborn</groupId>
+    <artifactId>gRPC-server</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>gRPC-server</name>
+    <description>gRPC-server</description>
+    <url/>
+    <properties>
+        <java.version>21</java.version> <!-- Версия Java для компиляции -->
+        <grpc.version>1.74.0</grpc.version> <!-- Версия gRPC фреймворка -->
+        <protobuf-java.version>4.31.1</protobuf-java.version> <!-- Версия Protocol Buffers -->
+        <spring-grpc.version>0.11.0</spring-grpc.version> <!-- Версия Spring gRPC интеграции -->
+        <os-maven-plugin.version>1.7.1</os-maven-plugin.version> <!-- Плагин для определения ОС -->
+    </properties>
+    <dependencies>
+
+        <!-- Spring Boot Base - базовые возможности Spring Boot (автоконфигурация, запуск приложения) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- ========== gRPC КОРЕШКИ ========== -->
+        <!-- gRPC Stub - генерация клиентских и серверных заглушек из .proto файлов -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <!-- gRPC Protobuf - поддержка Protocol Buffers как формата сериализации -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-protobuf</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <!-- gRPC Netty - сетевая транспортировка на основе Netty (обработка HTTP/2) -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+        <!-- gRPC Services - базовые сервисы gRPC (health check, reflection и т.д.) -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-services</artifactId>
+            <version>${grpc.version}</version>
+        </dependency>
+
+        <!-- Spring gRPC Integration - интеграция gRPC с Spring Boot (автоконфигурация, бины) -->
+        <dependency>
+            <groupId>org.springframework.grpc</groupId>
+            <artifactId>spring-grpc-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- ========== PROTOBUF ========== -->
+        <!-- Protobuf Java Core - ядро Protocol Buffers для Java (сериализация/десериализация) -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>${protobuf-java.version}</version>
+        </dependency>
+        <!-- Protobuf Java Utils - утилиты для работы с Protobuf (JSON конвертация и т.д.) -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <version>${protobuf-java.version}</version>
+        </dependency>
+
+        <!-- Lombok - генерация boilerplate кода (геттеры, сеттеры, конструкторы) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- Spring Boot Test - тестирование Spring Boot приложений -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Управление версиями Spring gRPC зависимостей -->
+            <dependency>
+                <groupId>org.springframework.grpc</groupId>
+                <artifactId>spring-grpc-dependencies</artifactId>
+                <version>${spring-grpc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <extensions>
+            <!-- Плагин для определения операционной системы (нужен protobuf плагину) -->
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>${os-maven-plugin.version}</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <!-- Компилятор Java - компиляция исходного кода -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <!-- Обработчик аннотаций Lombok -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- Protobuf Plugin - компиляция .proto файлов в Java классы -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.6.1</version>
+                <configuration>
+                    <!-- Protoc компилятор - преобразует .proto в Java классы -->
+                    <protocArtifact>com.google.protobuf:protoc:${protobuf-java.version}:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <!-- Плагин для генерации gRPC сервисов из .proto -->
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>          <!-- Генерация Protobuf классов -->
+                            <goal>compile-custom</goal>   <!-- Генерация gRPC сервисов -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Spring Boot Plugin - создание исполняемого JAR, запуск приложения -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!-- Исключаем Lombok из финального JAR (только для компиляции) -->
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "oleborn.grpc.common";
+option java_outer_classname = "CarProto";
+
+service CarService {
+  rpc buyCar (CarBuyRequest) returns (ListCarResponse);
+}
+
+enum CarStatus {
+  ACTIVE = 0;
+  INACTIVE = 1;
+}
+
+message CarBuyRequest {
+  string user_name = 1;
+  int64 budget = 2;
+  google.protobuf.Timestamp user_birth_date = 3;
+}
+
+message ListCarResponse {
+  int64 id = 1;
+  string model_name = 2;
+  int32 year_created = 3;
+  repeated string details = 4;
+  map<string, string> metadata = 5;
+  CarStatus car_status = 6;
+}
