@@ -1,0 +1,23 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### POST request to gRPC-backed service
+POST http://localhost:8081/get-car
+Content-Type: application/json
+
+{
+  "userName": "Den",
+  "budget": 1501,
+  "userBirthDate": "1990-05-15T00:00:00Z"
+}
+
+### POST request to REST/Feign service
+POST http://localhost:8081/getRest-car
+Content-Type: application/json
+
+{
+  "userName": "Artem",
+  "budget": 75001,
+  "userBirthDate": "1988-03-20T00:00:00Z"
+}

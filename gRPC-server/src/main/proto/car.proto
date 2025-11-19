@@ -27,7 +27,7 @@ service CarService {
   // CarBuyRequest - тип входящего сообщения (параметр)
   // ListCarResponse - тип исходящего сообщения (возвращаемое значение)
   // Unary RPC: один запрос → один ответ
-  rpc BuyCar (CarBuyRequest) returns (ListCarResponse);
+  rpc buyCar (CarBuyRequest) returns (ListCarResponse);
 }
 
 // Определение перечисления (enum) для статуса автомобиля
