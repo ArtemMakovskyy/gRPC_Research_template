@@ -24,6 +24,12 @@
     </properties>
     <dependencies>
 
+        <dependency>
+            <groupId>com.artem.grpc</groupId>
+            <artifactId>grpc-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- Spring Boot Base - базовые возможности Spring Boot (автоконфигурация, запуск приложения) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
