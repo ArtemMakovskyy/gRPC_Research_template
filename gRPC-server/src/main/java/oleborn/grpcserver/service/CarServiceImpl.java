@@ -2,10 +2,10 @@ package oleborn.grpcserver.service;
 
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
-import oleborn.grpc.common.CarBuyRequest;
-import oleborn.grpc.common.CarServiceGrpc;
-import oleborn.grpc.common.CarStatus;
-import oleborn.grpc.common.ListCarResponse;
+import com.grpc.common.CarBuyRequest;
+import com.grpc.common.CarServiceGrpc;
+import com.grpc.common.CarStatus;
+import com.grpc.common.ListCarResponse;
 import org.springframework.grpc.server.service.GrpcService;
 
 import java.time.Instant;

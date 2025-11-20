@@ -13,7 +13,7 @@ option java_multiple_files = true;
 
 // Пакет Java, в котором будут созданы сгенерированные классы
 // Должен совпадать с package в вашем Java коде
-option java_package = "oleborn.grpc.common";
+option java_package = "com.grpc.common";
 
 // Имя внешнего класса-обертки (актуально если java_multiple_files = false)
 // Содержит дескрипторы и вспомогательные методы

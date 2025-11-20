@@ -39,7 +39,7 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.artem.grpc</groupId>
+            <groupId>com.grpc</groupId>
             <artifactId>grpc-common</artifactId>
             <version>1.0.0</version>
         </dependency>

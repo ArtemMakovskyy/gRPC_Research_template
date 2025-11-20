@@ -1,11 +1,11 @@
 package oleborn.grpcdevhclient.service;
 
 import com.google.protobuf.Timestamp;
+import com.grpc.common.CarBuyRequest;
+import com.grpc.common.CarServiceGrpc;
+import com.grpc.common.ListCarResponse;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.client.inject.GrpcClient;
-import oleborn.grpc.common.CarBuyRequest;
-import oleborn.grpc.common.CarServiceGrpc;
-import oleborn.grpc.common.ListCarResponse;
 import oleborn.grpcdevhclient.dto.CarBuyRequestDto;
 import oleborn.grpcdevhclient.dto.CarInfoResponseDto;
 import org.springframework.stereotype.Service;

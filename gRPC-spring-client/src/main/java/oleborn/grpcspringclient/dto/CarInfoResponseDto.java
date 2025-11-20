@@ -1,7 +1,7 @@
 package oleborn.grpcspringclient.dto;
 
 import lombok.Builder;
-import oleborn.grpc.common.CarStatus;
+import com.grpc.common.CarStatus;
 
 import java.util.List;
 import java.util.Map;
